@@ -6,15 +6,17 @@ const $operator = document.querySelector('#operator');
 const $result = document.querySelector('#result');
 
 const onClickNumber = (event) => {
-  if (operator) {
-    if (!numTwo) {
-      $result.value = '';
-    }
-    numTwo += event.target.textContent;
-  } else {
+  if (!operator) {
     numOne += event.target.textContent;
+    $result.value += event.target.textContent; // 공통된 절차
+    return;
   }
-  $result.value += event.target.textContent;
+  // 이 아래로는 operator가 존재하는 경우에만 실행
+  if (!numTwo) {
+    $result.value = '';
+  }
+  numTwo += event.target.textContent;
+  $result.value += event.target.textContent; // 공통된 절차
 };
 
 const onClickOperator = (op) => () => {
