@@ -1,7 +1,6 @@
 let numOne = '';
 let operator = '';
 let numTwo = '';
-
 const $operator = document.querySelector('#operator');
 const $result = document.querySelector('#result');
 
@@ -64,4 +63,10 @@ document.querySelector('#calculate').addEventListener('click', () => {
     alert('숫자를 입력하세요');
   }
 });
-document.querySelector('#clear').addEventListener('click', () => {});
+document.querySelector('#clear').addEventListener('click', () => {
+  numOne = '';
+  operator = '';
+  numTwo = '';
+  $operator.value = '';
+  $result.value = '';
+});
