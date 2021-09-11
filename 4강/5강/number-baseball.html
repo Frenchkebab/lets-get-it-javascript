@@ -27,6 +27,39 @@
         answer.push(numbers[index]);
         numbers.splice(index);
       }
+
+      const tries = [];
+
+      // alert의 반환값은 undefined(if에서 false로 인식)
+      function checkInput(input) {
+        // input 길이 확인
+        if (input.length !== 4) {
+          return alert('4자리 숫자를 입력해 주세요.');
+        }
+
+        // input내에 중복된 숫자가 있는지
+        if (new Set(input).size !== 4) {
+          return alert('중복되지 않게 입력해 주세요.');
+        }
+
+        // input 숫자가 이미 시도된 숫자인지.
+        if (tries.includes(input)) {
+          return alert('이미 시도한 값입니다.');
+        }
+
+        return true; // 검사를 통과하면 true를 반환
+      }
+      $form.addEventListener('submit', (event) => {
+        event.preventDefault(); // submit 이벤트 발생 시 브라우저 새로고침을 막아줌
+        const value = $input.value;
+        $input.value = ''; // 다음 값 입력을 위해 초기화
+        console.log(value);
+        if (checkInput(value)) {
+          // 입력값 형식 통과
+        } else {
+          // 입력값 에러
+        }
+      });
     </script>
   </body>
 </html>
