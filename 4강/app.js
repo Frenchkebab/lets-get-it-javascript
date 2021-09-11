@@ -7,6 +7,9 @@ const $result = document.querySelector('#result');
 
 const onClickNumber = (event) => {
   if (operator) {
+    if (!numTwo) {
+      $result.value = '';
+    }
     numTwo += event.target.textContent;
   } else {
     numOne += event.target.textContent;
