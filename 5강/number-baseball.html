@@ -49,16 +49,33 @@
 
         return true; // 검사를 통과하면 true를 반환
       }
+
       $form.addEventListener('submit', (event) => {
         event.preventDefault(); // submit 이벤트 발생 시 브라우저 새로고침을 막아줌
         const value = $input.value;
         $input.value = ''; // 다음 값 입력을 위해 초기화
-        console.log(value);
-        if (checkInput(value)) {
-          // 입력값 형식 통과
-        } else {
-          // 입력값 에러
+
+        // 리팩토링하여 아래의 else를 위로 올려줌
+        if (!checkInput(value)) {
+          return;
         }
+
+        // if (checkInput(value)) {
+
+        // 입력값 문제없음
+        if (answer.join('') === value) {
+          $logs.textContent = '홈런!';
+          return;
+        }
+        if (tries.length >= 9) {
+          const message = document.createTextNode(`패배! 정답은 ${answer.join('')}`);
+          $logs.appendChild(message);
+          return;
+        }
+        // }
+        // else {
+        //   // 입력값 에러
+        // }
       });
     </script>
   </body>
