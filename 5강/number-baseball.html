@@ -9,7 +9,7 @@
       <input type="text" id="input" />
       <button>확인</button>
     </form>
-    <div class="logs"></div>
+    <div id="logs"></div>
     <script>
       const $input = document.querySelector('#input');
       const $form = document.querySelector('#form');
@@ -25,8 +25,10 @@
       for (let i = 0; i < 4; i++) {
         const index = Math.floor(Math.random() * numbers.length);
         answer.push(numbers[index]);
-        numbers.splice(index);
+        numbers.splice(index, 1);
       }
+
+      console.log(answer);
 
       const tries = [];
 
@@ -50,9 +52,12 @@
         return true; // 검사를 통과하면 true를 반환
       }
 
+      let out = 0;
+
       $form.addEventListener('submit', (event) => {
         event.preventDefault(); // submit 이벤트 발생 시 브라우저 새로고침을 막아줌
         const value = $input.value;
+        console.log(value);
         $input.value = ''; // 다음 값 입력을 위해 초기화
 
         // 리팩토링하여 아래의 else를 위로 올려줌
@@ -76,6 +81,35 @@
         // else {
         //   // 입력값 에러
         // }
+
+        // 몇 스트라이크 몇 볼인지 검사
+        let strike = 0;
+        let ball = 0;
+
+        // 예) answer: 3146, value: 1234
+        for (let i = 0; i < answer.length; i++) {
+          const index = value.indexOf(answer[i]);
+          if (index > -1) {
+            if (index === i) {
+              strike += 1;
+            } else {
+              ball += 1;
+            }
+          }
+        }
+        if (strike === 0 && ball === 0) {
+          $logs.append(`${out} 아웃`, document.createElement('br'));
+          out++;
+        } else {
+          $logs.append(`${value}: ${strike} 스트라이크 ${ball} 볼`);
+          $logs.append(document.createElement('br'));
+        }
+
+        if (out === 3) {
+          $logs.append(`패배! 정답은 ${answer.join(' ')}`);
+          return;
+        }
+        tries.push(value);
       });
     </script>
   </body>
