@@ -47,29 +47,11 @@
         $target.appendChild($ball);
       };
 
-      setTimeout(() => {
-        showBall(winBalls[0], $result);
-      }, 1000);
-
-      setTimeout(() => {
-        showBall(winBalls[1], $result);
-      }, 2000);
-
-      setTimeout(() => {
-        showBall(winBalls[2], $result);
-      }, 3000);
-
-      setTimeout(() => {
-        showBall(winBalls[3], $result);
-      }, 4000);
-
-      setTimeout(() => {
-        showBall(winBalls[4], $result);
-      }, 5000);
-
-      setTimeout(() => {
-        showBall(winBalls[5], $result);
-      }, 6000);
+      for (let i = 0; i < 6; i++) {
+        setTimeout(() => {
+          showBall(winBalls[i], $result);
+        }, 1000 * (i + 1));
+      }
 
       setTimeout(() => {
         showBall(bonus, $bonus);
