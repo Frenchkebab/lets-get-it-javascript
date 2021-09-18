@@ -52,6 +52,10 @@
         return true; // 검사를 통과하면 true를 반환
       }
 
+      function defeated() {
+        $logs.append(document.createTextNode(`패배! 정답은 ${answer.join(' ')}`));
+      }
+
       let out = 0;
 
       $form.addEventListener('submit', (event) => {
@@ -73,10 +77,10 @@
           return;
         }
         if (tries.length >= 9) {
-          const message = document.createTextNode(`패배! 정답은 ${answer.join('')}`);
-          $logs.appendChild(message);
+          defeated();
           return;
         }
+
         // }
         // else {
         //   // 입력값 에러
@@ -106,7 +110,7 @@
         }
 
         if (out === 3) {
-          $logs.append(`패배! 정답은 ${answer.join(' ')}`);
+          defeated();
           return;
         }
         tries.push(value);
