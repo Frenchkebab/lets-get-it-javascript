@@ -35,7 +35,6 @@
       };
 
       let computerChoice = 'scissors';
-
       const changeComputerHand = () => {
         if (computerChoice === 'rock') {
           computerChoice = 'scissors';
@@ -52,22 +51,18 @@
       let intervalId = setInterval(changeComputerHand, 50);
 
       const clickButton = () => {
+        console.log('out', intervalId);
         clearInterval(intervalId);
-        $rock.removeEventListener('click', clickButton);
-        $scissors.removeEventListener('click', clickButton);
-        $paper.removeEventListener('click', clickButton);
-
         setTimeout(() => {
-          $rock.addEventListener('click', clickButton);
-          $scissors.addEventListener('click', clickButton);
-          $paper.addEventListener('click', clickButton);
+          console.log('in', intervalId);
+          clearInterval(intervalId);
           intervalId = setInterval(changeComputerHand, 50);
         }, 1000);
       };
 
       $rock.addEventListener('click', clickButton);
       $scissors.addEventListener('click', clickButton);
-      $paper.addEventListener('click', clickButton);
+      $rock.addEventListener('click', clickButton);
     </script>
   </body>
 </html>
