@@ -50,19 +50,22 @@
 
       let intervalId = setInterval(changeComputerHand, 50);
 
+      let clickable = true;
+
       const clickButton = () => {
-        console.log('out', intervalId);
-        clearInterval(intervalId);
-        setTimeout(() => {
-          console.log('in', intervalId);
+        if (clickable) {
           clearInterval(intervalId);
-          intervalId = setInterval(changeComputerHand, 50);
-        }, 1000);
+          clickable = false;
+          setTimeout(() => {
+            clickable = true;
+            intervalId = setInterval(changeComputerHand, 50);
+          }, 1000);
+        }
       };
 
       $rock.addEventListener('click', clickButton);
       $scissors.addEventListener('click', clickButton);
-      $rock.addEventListener('click', clickButton);
+      $paper.addEventListener('click', clickButton);
     </script>
   </body>
 </html>
