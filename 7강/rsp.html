@@ -63,8 +63,11 @@
         if (clickable) {
           clearInterval(intervalId);
           clickable = false;
-          const myChoice = event.target.id === '바위' ? 'rock' : event.target.id === '가위' ? 'scissors' : 'paper';
+          // const myChoice =
+          //   event.target.textContent === '바위' ? 'rock' : event.target.textContent === '가위' ? 'scissors' : 'paper';
+          const myChoice = event.target.id;
           const myScore = scoreTable[myChoice];
+          console.log(myScore);
           const computerScore = scoreTable[computerChoice];
           const diff = myScore - computerScore;
 
@@ -72,7 +75,7 @@
           if ([2, -1].includes(diff)) {
             score += 1;
             message = '승리';
-          } else if ([1, -1].includes(diff)) {
+          } else if ([1, -2].includes(diff)) {
             score -= 1;
             message = '패배';
           } else {
