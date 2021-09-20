@@ -31,6 +31,8 @@
 
       let startTime;
       let endTime;
+      const records = [];
+      let timeoutId;
 
       $screen.addEventListener('click', (event) => {
         // 파랑
@@ -39,7 +41,7 @@
           // $screen.classList.add('ready');
           $screen.classList.replace('waiting', 'ready');
           $screen.textContent = '초록색이 되면 클릭하세요';
-          setTimeout(() => {
+          timeoutId = setTimeout(() => {
             startTime = new Date();
             $screen.classList.remove('ready');
             $screen.classList.add('now');
@@ -48,10 +50,18 @@
           }, Math.floor(Math.random() * 1000) + 2000); // 2초 ~ 3초
           // 빨강
         } else if ($screen.classList.contains('ready')) {
-          // 초록
+          clearTimeout(timeoutId);
+          $screen.classList.replace('ready', 'waiting');
+          $screen.textContent = '너무 성급하시군요!';
         } else if ($screen.classList.contains('now')) {
           endTime = new Date();
-          $result.textContent = `${endTime - startTime}ms`;
+          console.log(endTime);
+          const current = endTime - startTime;
+          records.push(current);
+          const average = records.reduce((a, c) => a + c) / records.length;
+          $result.textContent = `현재 ${current}ms, 평균 ${average}ms`;
+          startTime = null;
+          endTime = null;
           $screen.classList.replace('now', 'waiting');
           $screen.textContent = '클릭해서 시작하세요';
         }
