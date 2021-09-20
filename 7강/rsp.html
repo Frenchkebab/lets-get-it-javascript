@@ -57,6 +57,7 @@
       };
 
       let clickable = true;
+      let score = 0;
 
       const clickButton = () => {
         if (clickable) {
@@ -67,13 +68,17 @@
           const computerScore = scoreTable[computerChoice];
           const diff = myScore - computerScore;
 
+          let message = '';
           if ([2, -1].includes(diff)) {
-            console.log('승리');
+            score += 1;
+            message = '승리';
           } else if ([1, -1].includes(diff)) {
-            console.log('패배');
+            score -= 1;
+            message = '패배';
           } else {
-            console.log('무승부');
+            message = '무승부';
           }
+          $score.textContent = `${message} 총: ${score}점`;
           setTimeout(() => {
             clickable = true;
             intervalId = setInterval(changeComputerHand, 50);
