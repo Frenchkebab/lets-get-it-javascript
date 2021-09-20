@@ -34,7 +34,7 @@
         paper: '-440px' // 보
       };
 
-      let computerChoice = 'scissors';
+      let computerChoice = 'scissors'; // 컴퓨터 변수
       const changeComputerHand = () => {
         if (computerChoice === 'rock') {
           computerChoice = 'scissors';
@@ -50,12 +50,30 @@
 
       let intervalId = setInterval(changeComputerHand, 50);
 
+      const scoreTable = {
+        rock: 0,
+        scissors: 1,
+        paper: -1
+      };
+
       let clickable = true;
 
       const clickButton = () => {
         if (clickable) {
           clearInterval(intervalId);
           clickable = false;
+          const myChoice = event.target.id === '바위' ? 'rock' : event.target.id === '가위' ? 'scissors' : 'paper';
+          const myScore = scoreTable[myChoice];
+          const computerScore = scoreTable[computerChoice];
+          const diff = myScore - computerScore;
+
+          if (diff === 2 || diff === -1) {
+            console.log('승리');
+          } else if (diff === -1 || diff === 1) {
+            console.log('패배');
+          } else {
+            console.log('무승부');
+          }
           setTimeout(() => {
             clickable = true;
             intervalId = setInterval(changeComputerHand, 50);
