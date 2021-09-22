@@ -35,16 +35,20 @@
       </tr> -->
     </table>
     <script>
+      const { body, createElement } = document; // cosnt body = document.body;
+      const $table = createElement('table');
+      const $result = createElement('div');
+
       let turn = 'O';
       const data = [];
       for (let i = 0; i < 3; i++) {
         data.push([]);
       }
-      const $table = document.createElement('table');
+      const $table = createElement('table');
       for (let i = 0; i < 3; i++) {
-        const $tr = document.createElement('tr');
+        const $tr = createElement('tr');
         for (let j = 0; j < 3; j++) {
-          const $td = document.createElement('td');
+          const $td = createElement('td');
           $td.addEventListener('click', (event) => {
             console.log('clicked');
             if (event.target.textContent) return; // 칸에 이미 글자가 있는 경우
@@ -59,7 +63,8 @@
         }
         $table.append($tr);
       }
-      document.body.append($table);
+      body.append($table);
+      body.append($result);
     </script>
   </body>
 </html>
