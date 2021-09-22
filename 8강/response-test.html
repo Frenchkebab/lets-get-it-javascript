@@ -60,6 +60,10 @@
           records.push(current);
           const average = records.reduce((a, c) => a + c) / records.length;
           $result.textContent = `현재 ${current}ms, 평균 ${average}ms`;
+          const topFive = records.sort((a, b) => a - b).slice(0, 5);
+          topFive.forEach((val, index) => {
+            $result.append(document.createElement('br'), `${index + 1}위: ${val}ms,`);
+          });
           startTime = null;
           endTime = null;
           $screen.classList.replace('now', 'waiting');
