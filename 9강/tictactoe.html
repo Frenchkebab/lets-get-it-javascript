@@ -17,6 +17,49 @@
     </style>
   </head>
   <body>
-    <script></script>
+    <table>
+      <!-- <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr> -->
+    </table>
+    <script>
+      let turn = 'O';
+      const data = [];
+      for (let i = 0; i < 3; i++) {
+        data.push([]);
+      }
+      const $table = document.createElement('table');
+      for (let i = 0; i < 3; i++) {
+        const $tr = document.createElement('tr');
+        for (let j = 0; j < 3; j++) {
+          const $td = document.createElement('td');
+          $td.addEventListener('click', (event) => {
+            console.log('clicked');
+            if (event.target.textContent) return; // 칸에 이미 글자가 있는 경우
+            event.target.textContent = turn;
+            if (turn === 'O') {
+              turn = 'X';
+            } else if (turn === 'X') {
+              turn = 'O';
+            }
+          });
+          $tr.appendChild($td);
+        }
+        $table.append($tr);
+      }
+      document.body.append($table);
+    </script>
   </body>
 </html>
