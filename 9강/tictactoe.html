@@ -36,33 +36,42 @@
     </table>
     <script>
       const { body, createElement } = document; // cosnt body = document.body;
-      const $table = createElement('table');
-      const $result = createElement('div');
+      const $table = document.createElement('table');
+      const $result = document.createElement('div');
+      const rows = [];
 
       let turn = 'O';
-      const data = [];
+
+      // arr = [
+      //   [$td, $td, $td],
+      //   [$td, $td, $td],
+      //   [$td, $td, $td]
+      // ];
+
+      const callback = (event) => {
+        console.log('clicked');
+        if (event.target.textContent) return; // 칸에 이미 글자가 있는 경우
+        event.target.textContent = turn;
+        if (turn === 'O') {
+          turn = 'X';
+        } else if (turn === 'X') {
+          turn = 'O';
+        }
+      };
+
       for (let i = 0; i < 3; i++) {
-        data.push([]);
-      }
-      const $table = createElement('table');
-      for (let i = 0; i < 3; i++) {
-        const $tr = createElement('tr');
+        const $tr = document.createElement('tr');
+        const cells = [];
         for (let j = 0; j < 3; j++) {
-          const $td = createElement('td');
-          $td.addEventListener('click', (event) => {
-            console.log('clicked');
-            if (event.target.textContent) return; // 칸에 이미 글자가 있는 경우
-            event.target.textContent = turn;
-            if (turn === 'O') {
-              turn = 'X';
-            } else if (turn === 'X') {
-              turn = 'O';
-            }
-          });
+          const $td = document.createElement('td');
+          cells.push($td);
+          $td.addEventListener('click', callback);
           $tr.appendChild($td);
         }
+        rows.push(cells);
         $table.append($tr);
       }
+
       body.append($table);
       body.append($result);
     </script>
