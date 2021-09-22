@@ -49,16 +49,16 @@
       // ];
 
       const checkWinner = (target) => {
-        let rowIndex;
-        let cellIndex;
-        rows.forEach((row, ri) => {
-          row.forEach((cell, ci) => {
-            if (cell === target) {
-              rowIndex = ri;
-              cellIndex = ci;
-            }
-          });
-        });
+        const rowIndex = target.parentNode.rowIndex;
+        const cellIndex = target.cellIndex;
+        // rows.forEach((row, ri) => {
+        //   row.forEach((cell, ci) => {
+        //     if (cell === target) {
+        //       rowIndex = ri;
+        //       cellIndex = ci;
+        //     }
+        //   });
+        // });
 
         // 세칸이 다 채워졌는지?
         let hasWinner = false;
