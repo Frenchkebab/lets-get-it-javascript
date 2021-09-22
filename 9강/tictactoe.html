@@ -71,12 +71,12 @@
         for (let j = 0; j < 3; j++) {
           const $td = document.createElement('td');
           cells.push($td);
-          $td.addEventListener('click', callback);
           $tr.appendChild($td);
         }
         rows.push(cells);
         $table.append($tr);
       }
+      $table.addEventListener('click', callback);
 
       body.append($table);
       body.append($result);
