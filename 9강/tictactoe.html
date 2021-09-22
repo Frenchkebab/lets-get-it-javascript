@@ -106,6 +106,7 @@
         // 승부 판단하기(클릭한 칸을 체크)
         if (checkWinner(event.target)) {
           $result.textContent = `${turn}님이 승리!`;
+          $table.removeEventListener('click', callback);
           return;
         }
 
