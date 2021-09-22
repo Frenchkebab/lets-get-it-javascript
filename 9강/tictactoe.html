@@ -49,8 +49,15 @@
       // ];
 
       const callback = (event) => {
-        console.log('clicked');
-        if (event.target.textContent) return; // 칸에 이미 글자가 있는 경우
+        if (event.target.textContent !== '') {
+          // 칸이 이미 채워져 있으면
+          console.log('빈칸이 아닙니다');
+        } else {
+          // 빈칸이면
+          console.log('빈칸입니다');
+          event.target.textContent = turn;
+        }
+
         event.target.textContent = turn;
         if (turn === 'O') {
           turn = 'X';
