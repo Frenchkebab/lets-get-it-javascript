@@ -57,13 +57,12 @@
         // 빈칸이면
         console.log('빈칸입니다');
         event.target.textContent = turn;
-
-        event.target.textContent = turn;
-        if (turn === 'O') {
-          turn = 'X';
-        } else if (turn === 'X') {
-          turn = 'O';
-        }
+        // if (turn === 'O') {
+        //   turn = 'X';
+        // } else if (turn === 'X') {
+        //   turn = 'O';
+        // }
+        turn = turn === 'O' ? 'X' : 'O';
       };
 
       for (let i = 0; i < 3; i++) {
