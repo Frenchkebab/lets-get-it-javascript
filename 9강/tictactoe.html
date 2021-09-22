@@ -51,6 +51,9 @@
       const checkWinner = (target) => {
         const rowIndex = target.parentNode.rowIndex;
         const cellIndex = target.cellIndex;
+        // console.log(target.parentNode.children);
+        // console.log(target.parentNode.children.indexOf(target));
+
         // rows.forEach((row, ri) => {
         //   row.forEach((cell, ci) => {
         //     if (cell === target) {
@@ -111,12 +114,13 @@
         }
 
         // 무승부 검사
-        let draw = true;
-        rows.forEach((row) => {
-          row.forEach((cell) => {
-            if (!cell.textContent) draw = false;
-          });
-        });
+        // let draw = true;
+        // rows.forEach((row) => {
+        //   row.forEach((cell) => {
+        //     if (!cell.textContent) draw = false;
+        //   });
+        // });
+        const draw = rows.flat().every((cell) => cell.textContent);
         if (draw) {
           $result.textContent = '무승부';
           return;
