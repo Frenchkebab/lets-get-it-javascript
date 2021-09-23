@@ -114,25 +114,33 @@
         turn = turn === 'O' ? 'X' : 'O';
       };
 
+      let clickable = true;
       const callback = (event) => {
+        if (!clickable) {
+          return;
+        }
+
         if (event.target.textContent !== '') {
           // 칸이 이미 채워져 있으면
           console.log('빈칸이 아닙니다');
           return;
         }
+
         // 빈칸이면
         console.log('빈칸입니다');
-        event.target.textContent = turn;
+        event.target.textContent = turn; // 누른 칸에 X 혹은 O 넣어주기
 
         // 승부 판단하기(클릭한 칸을 체크)
         checkWinnerAndDraw(event.target);
 
         if (turn === 'X') {
+          clickable = false;
           setTimeout(() => {
             const emptyCells = rows.flat().filter((v) => !v.textContent);
             const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
             randomCell.textContent = 'X';
             checkWinnerAndDraw(event.target);
+            clickable = true;
           }, Math.floor(Math.random() * 3000));
         }
       };
