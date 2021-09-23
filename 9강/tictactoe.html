@@ -136,9 +136,44 @@
         if (turn === 'X') {
           clickable = false;
           setTimeout(() => {
-            const emptyCells = rows.flat().filter((v) => !v.textContent);
-            const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-            randomCell.textContent = 'X';
+            // 가로 2개
+            if (rows[0][0].textContent === 'O' && rows[0][1].textContent === 'O' && !rows[0][2].textContent) {
+              rows[0][2].textContent = 'X';
+            } else if (rows[0][1].textContent === 'O' && rows[0][2].textContent === 'O' && !rows[0][0].textContent) {
+              rows[0][0].textContent = 'X';
+            } else if (rows[1][0].textContent === 'O' && rows[1][1].textContent === 'O' && !rows[1][2].textContent) {
+              rows[1][2].textContent = 'X';
+            } else if (rows[1][1].textContent === 'O' && rows[1][2].textContent === 'O' && !rows[1][0].textContent) {
+              rows[1][0].textContent = 'X';
+            } else if (rows[2][0].textContent === 'O' && rows[2][1].textContent === 'O' && !rows[2][2].textContent) {
+              rows[2][2].textContent = 'X';
+            } else if (rows[2][1].textContent === 'O' && rows[2][2].textContent === 'O' && !rows[2][0].textContent) {
+              rows[2][0].textContent = 'X';
+            } else if (rows[0][0].textContent === 'O' && rows[1][0].textContent === 'O' && !rows[2][0].textContent) {
+              rows[2][0].textContent = 'X';
+            } else if (rows[1][0].textContent === 'O' && rows[2][0].textContent === 'O' && !rows[0][0].textContent) {
+              rows[0][0].textContent = 'X';
+            } else if (rows[0][1].textContent === 'O' && rows[1][1].textContent === 'O' && !rows[2][1].textContent) {
+              rows[2][1].textContent = 'X';
+            } else if (rows[1][1].textContent === 'O' && rows[2][1].textContent === 'O' && !rows[0][1].textContent) {
+              rows[0][1].textContent = 'X';
+            } else if (rows[0][2].textContent === 'O' && rows[1][2].textContent === 'O' && !rows[2][2].textContent) {
+              rows[2][2].textContent = 'X';
+            } else if (rows[1][2].textContent === 'O' && rows[2][2].textContent === 'O' && !rows[0][2].textContent) {
+              rows[0][2].textContent = 'X';
+            } else if (rows[0][0].textContent === 'O' && rows[1][1].textContent === 'O' && !rows[2][2].textContent) {
+              rows[2][2].textContent = 'X';
+            } else if (rows[1][1].textContent === 'O' && rows[2][2].textContent === 'O' && !rows[0][0].textContent) {
+              rows[0][0].textContent = 'X';
+            } else if (rows[0][2].textContent === 'O' && rows[1][1].textContent === 'O' && !rows[2][0].textContent) {
+              rows[2][0].textContent = 'X';
+            } else if (rows[1][1].textContent === 'O' && rows[2][0].textContent === 'O' && !rows[0][2].textContent) {
+              rows[0][2].textContent = 'X';
+            } else {
+              const emptyCells = rows.flat().filter((v) => !v.textContent);
+              const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+              randomCell.textContent = 'X';
+            }
             checkWinnerAndDraw(event.target);
             clickable = true;
           }, Math.floor(Math.random() * 3000));
