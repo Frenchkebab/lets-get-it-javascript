@@ -128,10 +128,12 @@
         checkWinnerAndDraw(event.target);
 
         if (turn === 'X') {
-          const emptyCells = rows.flat().filter((v) => !v.textContent);
-          const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-          randomCell.textContent = 'X';
-          checkWinnerAndDraw(event.target);
+          setTimeout(() => {
+            const emptyCells = rows.flat().filter((v) => !v.textContent);
+            const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            randomCell.textContent = 'X';
+            checkWinnerAndDraw(event.target);
+          }, Math.floor(Math.random() * 3000));
         }
       };
 
