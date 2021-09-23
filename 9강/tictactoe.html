@@ -96,6 +96,24 @@
         return hasWinner;
       };
 
+      const checkWinnerAndDraw = (target) => {
+        const hasWinner = checkWinner(target);
+        // 승자가 있으면
+        if (hasWinner) {
+          $result.textContent = `${turn}님이 승리!`;
+          $table.removeEventListener('click', callback);
+          return;
+        }
+
+        // 승자가 없으면
+        const draw = rows.flat().every((cell) => cell.textContent);
+        if (draw) {
+          $result.textContent = '무승부';
+          return;
+        }
+        turn = turn === 'O' ? 'X' : 'O';
+      };
+
       const callback = (event) => {
         if (event.target.textContent !== '') {
           // 칸이 이미 채워져 있으면
@@ -107,31 +125,14 @@
         event.target.textContent = turn;
 
         // 승부 판단하기(클릭한 칸을 체크)
-        if (checkWinner(event.target)) {
-          $result.textContent = `${turn}님이 승리!`;
-          $table.removeEventListener('click', callback);
-          return;
-        }
+        checkWinnerAndDraw(event.target);
 
-        // 무승부 검사
-        // let draw = true;
-        // rows.forEach((row) => {
-        //   row.forEach((cell) => {
-        //     if (!cell.textContent) draw = false;
-        //   });
-        // });
-        const draw = rows.flat().every((cell) => cell.textContent);
-        if (draw) {
-          $result.textContent = '무승부';
-          return;
+        if (turn === 'X') {
+          const emptyCells = rows.flat().filter((v) => !v.textContent);
+          const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+          randomCell.textContent = 'X';
+          checkWinnerAndDraw(event.target);
         }
-
-        turn = turn === 'O' ? 'X' : 'O';
-        // if (turn === 'O') {
-        //   turn = 'X';
-        // } else if (turn === 'X') {
-        //   turn = 'O';
-        // }
       };
 
       for (let i = 0; i < 3; i++) {
