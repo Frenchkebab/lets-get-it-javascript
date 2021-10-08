@@ -1,11 +1,18 @@
+// 주인공 이름 입력 화면
 const $startScreen = document.querySelector('#start-screen');
+
+// 주인공 이름 입력 후 게임 메뉴
 const $gameMenu = document.querySelector('#game-menu');
-const $battleMenu = document.querySelector('#battle-menu');
 const $heroName = document.querySelector('#hero-name');
 const $heroLevel = document.querySelector('#hero-level');
 const $heroHp = document.querySelector('#hero-hp');
 const $heroXp = document.querySelector('#hero-xp');
 const $heroAtt = document.querySelector('#hero-att');
+
+// 전투 메뉴
+const $battleMenu = document.querySelector('#battle-menu');
+
+// 몬스터 정보
 const $monsterName = document.querySelector('#monster-name');
 const $monsterHp = document.querySelector('#monster-hp');
 const $monsterAtt = document.querySelector('#monster-att');

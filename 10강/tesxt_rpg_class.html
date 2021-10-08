@@ -5,11 +5,15 @@
     <title>텍스트 RPG</title>
   </head>
   <body>
+    <!-- 주인공 이름 입력 화면 -->
     <form id="start-screen">
       <input id="name-input" placeholder="주인공 이름을 입력하세요!" />
       <button id="start">시작</button>
     </form>
+
+    <!-- 주인공 이름 입력 후 시작 화면 -->
     <div id="screen">
+      <!-- 시작 후 주인공 정보 -->
       <div id="hero-start">
         <span id="hero-name"></span>
         <span id="hero-level"></span>
@@ -17,6 +21,8 @@
         <span id="hero-xp"></span>
         <span id="hero-att"></span>
       </div>
+
+      <!-- 게임 메뉴 -->
       <form id="game-menu" style="display: none">
         <div id="menu-1">1.모험 </div>
         <div id="menu-2">2.휴식</div>
@@ -24,6 +30,8 @@
         <input id="menu-input" />
         <button id="menu-button">입력</button>
       </form>
+
+      <!-- 게임 메뉴에서 1을 선택한 경우 (전투메뉴) -->
       <form id="battle-menu" style="display: none">
         <div id="battle-1">1.공격</div>
         <div id="battle-2">2.회복</div>
@@ -31,7 +39,11 @@
         <input id="battle-input" />
         <button id="battle-button">입력</button>
       </form>
+
+      <!-- 메세지 -->
       <div id="message"></div>
+
+      <!-- 몬스터 정보 -->
       <div id="monster-start">
         <span id="monster-name"></span>
         <span id="monster-hp"></span>
