@@ -64,6 +64,7 @@
             { name: '마왕', hp: 150, att: 35, xp: 50 }
           ];
           this.start(name);
+          this.updateHeroStat(); // 생성시 화면을 새로 그려줌
         }
 
         start(name) {
@@ -133,6 +134,41 @@
             // 도망
           }
         };
+
+        // user의 화면을 새로 그려줌
+        updateHeroStat() {
+          const { hero } = this;
+          if (hero === null) {
+            $heroName.textContent = '';
+            $heroLevel.textContent = '';
+            $heroHp.textContent = '';
+            $heroXp.textContent = '';
+            $heroAtt.textContent = '';
+            return;
+          }
+          $heroName.textContent = hero.name;
+          $heroLevel.textContent = `${hero.lev}Lev`;
+          $heroHp.textContent = `HP: ${hero.hp}/${hero.maxHp}`;
+          $heroXp.textContent = `XP: ${hero.xp}/${15 * hero.lev}`;
+          $heroAtt.textContent = `ATT: ${hero.att}`;
+        }
+
+        updateMonsterStat() {
+          const { monster } = this;
+          if (monster === null) {
+            $monsterName.textContent = '';
+            $monsterHp.textContent = '';
+            $monsterAtt.textContent = '';
+            return;
+          }
+          $monsterName.textContent = monster.name;
+          $monsterHp.textContent = `HP: ${monster.hp}/${monster.maxHp}`;
+          $monsterAtt.textContent = `ATT: ${monster.att}`;
+        }
+
+        showMessage(text) {
+          $message.textContent = text;
+        }
       }
 
       class Hero {
