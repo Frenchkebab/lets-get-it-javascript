@@ -20,6 +20,7 @@ const $message = document.querySelector('#message');
 
 // 게임
 class Game {
+  // 생성자 함수 (시작 화면에서 이름 입력 시 실행)
   constructor(name) {
     this.monster = null;
     this.hero = null;
@@ -49,10 +50,11 @@ class Game {
           var과는 다르게, function은 다른 this를 사용할 경우를 위해 사라지지 않음!
           */
 
+    // 아래의 this는 Game 클래스의 해당 사용자의 인스턴스
     $gameMenu.addEventListener('submit', this.onGameMenuInput); // 이 안의 this가 화살표함수여야 this가 유지되므로
     $battleMenu.addEventListener('submit', this.onBattleMenuInput); // 아래에서도 화살표 함수로 해당 event 콜백 함수를 작성했음
-    this.changeScreen('game');
-    this.hero = new Hero(this, name);
+    this.changeScreen('game'); // 게임 메뉴 진입
+    this.hero = new Hero(this, name); // 입력된 이름으로 Hero 객체 생성
   }
 
   changeScreen(screen) {
@@ -75,7 +77,7 @@ class Game {
 
   onGameMenuInput = (event) => {
     event.preventDefault();
-    const input = event.target['menu-input'].value;
+    const input = event.target['menu-input'].value; // 게임 메뉴에서의 input
     if (input === '1') {
       // 모험
       this.changeScreen('battle');
@@ -95,7 +97,7 @@ class Game {
   onBattleMenuInput = (event) => {
     event.preventDefault();
 
-    const input = event.target['battle-input'].value;
+    const input = event.target['battle-input'].value; //  전투 메뉴에서의 input
 
     if (input === '1') {
       // 공격
@@ -109,6 +111,7 @@ class Game {
   // user의 화면을 새로 그려줌
   updateHeroStat() {
     const { hero } = this;
+    // Hero 인스턴스가 없으면 빈칸
     if (hero === null) {
       $heroName.textContent = '';
       $heroLevel.textContent = '';
@@ -117,6 +120,8 @@ class Game {
       $heroAtt.textContent = '';
       return;
     }
+
+    // Hero 클래스의 인스턴스에 대한 정보 표시
     $heroName.textContent = hero.name;
     $heroLevel.textContent = `${hero.lev}Lev`;
     $heroHp.textContent = `HP: ${hero.hp}/${hero.maxHp}`;
@@ -124,6 +129,7 @@ class Game {
     $heroAtt.textContent = `ATT: ${hero.att}`;
   }
 
+  // Monster 클래스의 인스턴스에 대한 정보 표시
   updateMonsterStat() {
     const { monster } = this;
     if (monster === null) {
@@ -132,6 +138,7 @@ class Game {
       $monsterAtt.textContent = '';
       return;
     }
+
     $monsterName.textContent = monster.name;
     $monsterHp.textContent = `HP: ${monster.hp}/${monster.maxHp}`;
     $monsterAtt.textContent = `ATT: ${monster.att}`;
@@ -180,6 +187,7 @@ class Monster {
 
 let game = null;
 
+// 시작 화면에서 이름 입력 시 Game 객체 생성자 호출
 $startScreen.addEventListener('submit', (event) => {
   event.preventDefault();
   const name = event.target['name-input'].value;
