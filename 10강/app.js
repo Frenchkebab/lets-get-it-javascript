@@ -1,0 +1,180 @@
+const $startScreen = document.querySelector('#start-screen');
+const $gameMenu = document.querySelector('#game-menu');
+const $battleMenu = document.querySelector('#battle-menu');
+const $heroName = document.querySelector('#hero-name');
+const $heroLevel = document.querySelector('#hero-level');
+const $heroHp = document.querySelector('#hero-hp');
+const $heroXp = document.querySelector('#hero-xp');
+const $heroAtt = document.querySelector('#hero-att');
+const $monsterName = document.querySelector('#monster-name');
+const $monsterHp = document.querySelector('#monster-hp');
+const $monsterAtt = document.querySelector('#monster-att');
+const $message = document.querySelector('#message');
+
+// 게임
+class Game {
+  constructor(name) {
+    this.monster = null;
+    this.hero = null;
+    this.monsterList = [
+      { name: '슬라임', hp: 25, att: 10, xp: 10 },
+      { name: '스켈레톤', hp: 50, att: 15, xp: 20 },
+      { name: '마왕', hp: 150, att: 35, xp: 50 }
+    ];
+    this.start(name);
+    this.updateHeroStat(); // 생성시 화면을 새로 그려줌
+  }
+
+  start(name) {
+    /* 아래의 두 EventListener들은 Game 클래스 밖으로 빼면
+          this가 window 객체를 가리키게 된다!
+
+          객체.메서드 안의 this는 해당 객체를 가리키게 된다!          
+
+          따라서, addEventListner 함수 내의 this는 해당 tag 객체를 가리키게 된다
+          (위의 constructor 함수에서는 Game 클래스의 인스턴스를 가리키던 것과 달라짐) 
+
+          예전에는 self / _this 변수로 this를 저장해주기도 했음!
+
+          여기서 화살표 함수의 경우, 바깥쪽 this와 안쪽 this를 동일하게 유지해 준다!
+          (function의 경우, 자기만의 this를 갖게 됨)
+
+          var과는 다르게, function은 다른 this를 사용할 경우를 위해 사라지지 않음!
+          */
+
+    $gameMenu.addEventListener('submit', this.onGameMenuInput); // 이 안의 this가 화살표함수여야 this가 유지되므로
+    $battleMenu.addEventListener('submit', this.onBattleMenuInput); // 아래에서도 화살표 함수로 해당 event 콜백 함수를 작성했음
+    this.changeScreen('game');
+    this.hero = new Hero(this, name);
+  }
+
+  changeScreen(screen) {
+    if (screen === 'start') {
+      // 시작메뉴만 보여주고 나머지는 가림
+      $startScreen.stlye.display = 'block';
+      $gameMenu.style.display = 'none';
+      $battleMenu.style.display = 'none';
+    } else if ((screen = 'game')) {
+      // 게임 메뉴만 보여주고 나머지는 가림
+      $startScreen.style.display = 'none';
+      $gameMenu.style.display = 'block';
+    } else if (screen === 'battle') {
+      // 전투 메뉴만 보여주고 나머지는 가림
+      $startScreen.style.display = 'none';
+      $gameMenu.style.display = 'none';
+      $battleMenu.style.display = 'block';
+    }
+  }
+
+  onGameMenuInput = (event) => {
+    event.preventDefault();
+    const input = event.target['menu-input'].value;
+    if (input === '1') {
+      // 모험
+      this.changeScreen('battle');
+      const randomIndex = Math.floor(Math.random() * this.monsterList.length);
+      const randomMonster = this.monsterList[randomIndex];
+      this.monster = new Monster(this, randomMonster.name, randomMonster.hp, randomMonster.att, randomMonster.xp);
+      this.updateMonsterStat();
+      this.showMessage(`몬스터와 마주쳤다. ${this.monster.name}인 것 같다!`);
+      this.changeScreen('battle');
+    } else if (input === '2') {
+      // 휴식
+    } else if (input === '3') {
+      // 종료
+    }
+  };
+
+  onBattleMenuInput = (event) => {
+    event.preventDefault();
+
+    const input = event.target['battle-input'].value;
+
+    if (input === '1') {
+      // 공격
+    } else if (input === '2') {
+      // 회복
+    } else if (input === '3') {
+      // 도망
+    }
+  };
+
+  // user의 화면을 새로 그려줌
+  updateHeroStat() {
+    const { hero } = this;
+    if (hero === null) {
+      $heroName.textContent = '';
+      $heroLevel.textContent = '';
+      $heroHp.textContent = '';
+      $heroXp.textContent = '';
+      $heroAtt.textContent = '';
+      return;
+    }
+    $heroName.textContent = hero.name;
+    $heroLevel.textContent = `${hero.lev}Lev`;
+    $heroHp.textContent = `HP: ${hero.hp}/${hero.maxHp}`;
+    $heroXp.textContent = `XP: ${hero.xp}/${15 * hero.lev}`;
+    $heroAtt.textContent = `ATT: ${hero.att}`;
+  }
+
+  updateMonsterStat() {
+    const { monster } = this;
+    if (monster === null) {
+      $monsterName.textContent = '';
+      $monsterHp.textContent = '';
+      $monsterAtt.textContent = '';
+      return;
+    }
+    $monsterName.textContent = monster.name;
+    $monsterHp.textContent = `HP: ${monster.hp}/${monster.maxHp}`;
+    $monsterAtt.textContent = `ATT: ${monster.att}`;
+  }
+
+  showMessage(text) {
+    $message.textContent = text;
+  }
+}
+
+class Hero {
+  constructor(game, name) {
+    this.game = game;
+    this.name = name;
+    this.lev = 1;
+    this.maxHp = 100;
+    this.hp = 100;
+    this.xp = 0;
+    this.att = 10;
+  }
+
+  attack(target) {
+    target.hp -= this.att;
+  }
+
+  heal(monster) {
+    this.hp += 20;
+    this.hp -= monster.att;
+  }
+}
+
+class Monster {
+  constructor(game, name, hp, att, xp) {
+    this.game = game;
+    this.name = name;
+    this.maxHp = hp;
+    this.hp = hp;
+    this.xp = xp;
+    this.att = att;
+  }
+
+  attack(target) {
+    target.hp -= this.att;
+  }
+}
+
+let game = null;
+
+$startScreen.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const name = event.target['name-input'].value;
+  game = new Game(name);
+});
