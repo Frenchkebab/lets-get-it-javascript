@@ -96,8 +96,12 @@ class Game {
       this.showMessage(`몬스터와 마주쳤다. ${this.monster.name}인 것 같다!`); // Monster 메시지 표시
     } else if (input === '2') {
       // 휴식
+      this.hero.hp = this.hero.maxHp;
+      this.updateHeroStat();
+      this.showMessage('충분한 휴식을 취했다.');
     } else if (input === '3') {
       // 종료
+      this.showMessage(' ');
       this.quit();
     }
   };
@@ -110,8 +114,8 @@ class Game {
 
     if (input === '1') {
       // 공격
-      const { hero, monster } = this;
 
+      const { hero, monster } = this;
       // 서로 공격
       hero.attack(monster);
       monster.attack(hero);
@@ -128,7 +132,7 @@ class Game {
         this.changeScreen('game');
       } else {
         // 둘 다 죽지 않은 경우
-        this.showMessage(`${hero.att}의 데미지를 주고, ${monster.att}의 데미지를 받았따.`);
+        this.showMessage(`${hero.att}의 데미지를 주고, ${monster.att}의 데미지를 받았다.`);
       }
 
       // 유저와 몬스터의 업데이트된 정보를 화면에 표시
@@ -136,8 +140,16 @@ class Game {
       this.updateMonsterStat();
     } else if (input === '2') {
       // 회복
+      this.hero.heal(this.monster);
+      this.monster.attack(this.hero);
+      this.updateHeroStat();
+      this.showMessage(`체력이 20만큼 회복되고 ${this.monster.att}만큼의 데미지를 입었다!`);
     } else if (input === '3') {
       // 도망
+      this.changeScreen('game');
+      this.monster = null;
+      this.updateMonsterStat();
+      this.showMessage(' ');
     }
   };
 
@@ -156,7 +168,7 @@ class Game {
 
     // Hero 클래스의 인스턴스에 대한 정보 표시
     $heroName.textContent = hero.name;
-    $heroLevel.textContent = `${hero.lev}Lev`;
+    $heroLevel.textContent = `Lev${hero.lev}`;
     $heroHp.textContent = `HP: ${hero.hp}/${hero.maxHp}`;
     $heroXp.textContent = `XP: ${hero.xp}/${15 * hero.lev}`;
     $heroAtt.textContent = `ATT: ${hero.att}`;
@@ -196,7 +208,7 @@ class Game {
 
 class Unit {
   constructor(game, name, hp, att, xp) {
-    this.gamae = game;
+    this.game = game;
     this.name = name;
     this.maxHp = hp;
     this.hp = hp;
@@ -222,8 +234,7 @@ class Hero extends Unit {
   }
 
   heal(monster) {
-    this.hp += 20;
-    this.hp -= monster.att;
+    this.hp = Math.min(this.hp + 20, this.maxHp);
   }
 
   // 경험치를 얻을 때마다 레벨업을 할지 판단
@@ -237,6 +248,7 @@ class Hero extends Unit {
       this.att += 5;
       this.hp = this.maxHp;
       this.game.showMessage(`레벨업! 레벨${this.lev}`);
+      console.log(this);
     }
   }
 }
