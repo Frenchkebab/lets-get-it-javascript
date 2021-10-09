@@ -63,7 +63,7 @@ class Game {
       $startScreen.stlye.display = 'block';
       $gameMenu.style.display = 'none';
       $battleMenu.style.display = 'none';
-    } else if ((screen = 'game')) {
+    } else if (screen === 'game') {
       // 게임 메뉴만 보여주고 나머지는 가림
       $startScreen.style.display = 'none';
       $gameMenu.style.display = 'block';
@@ -75,18 +75,24 @@ class Game {
     }
   }
 
+  // 게임 메뉴에서의 input
   onGameMenuInput = (event) => {
     event.preventDefault();
-    const input = event.target['menu-input'].value; // 게임 메뉴에서의 input
+    const input = event.target['menu-input'].value;
     if (input === '1') {
       // 모험
-      this.changeScreen('battle');
+      this.changeScreen('battle'); // 모험 화면으로 전환
+
+      // monster 랜덤으로 생성
       const randomIndex = Math.floor(Math.random() * this.monsterList.length);
       const randomMonster = this.monsterList[randomIndex];
+
+      // JSON.parse(JSON.stringify(객체)) 대신에 monsterList로부터 정보를 꺼내서 Monster 객체에 넣어줌
+      // (객체가 아닌 값은 깊은 복사를 할 필요가 없음)
       this.monster = new Monster(this, randomMonster.name, randomMonster.hp, randomMonster.att, randomMonster.xp);
-      this.updateMonsterStat();
-      this.showMessage(`몬스터와 마주쳤다. ${this.monster.name}인 것 같다!`);
-      this.changeScreen('battle');
+
+      this.updateMonsterStat(); // Monster 화면 표시
+      this.showMessage(`몬스터와 마주쳤다. ${this.monster.name}인 것 같다!`); // Monster 메시지 표시
     } else if (input === '2') {
       // 휴식
     } else if (input === '3') {
@@ -94,13 +100,25 @@ class Game {
     }
   };
 
+  // 전투 메뉴에서의 input
   onBattleMenuInput = (event) => {
     event.preventDefault();
 
-    const input = event.target['battle-input'].value; //  전투 메뉴에서의 input
+    const input = event.target['battle-input'].value;
 
     if (input === '1') {
       // 공격
+      const { hero, monster } = this;
+
+      // 서로 공격
+      hero.attack(monster);
+      monster.attack(hero);
+
+      this.showMessage(`${hero.att}의 데미지를 주고, ${monster.att}의 데미지를 받았다.`);
+
+      // 유저와 몬스터의 업데이트된 정보를 화면에 표시
+      this.updateHeroStat();
+      this.updateMonsterStat();
     } else if (input === '2') {
       // 회복
     } else if (input === '3') {
@@ -111,7 +129,7 @@ class Game {
   // user의 화면을 새로 그려줌
   updateHeroStat() {
     const { hero } = this;
-    // Hero 인스턴스가 없으면 빈칸
+    // hero가 전사한 경우 hero값이 null
     if (hero === null) {
       $heroName.textContent = '';
       $heroLevel.textContent = '';
@@ -149,6 +167,7 @@ class Game {
   }
 }
 
+// Hero 객체 정의
 class Hero {
   constructor(game, name) {
     this.game = game;
@@ -170,6 +189,7 @@ class Hero {
   }
 }
 
+// Monster 객체 정의
 class Monster {
   constructor(game, name, hp, att, xp) {
     this.game = game;
