@@ -67,6 +67,7 @@ class Game {
       // 게임 메뉴만 보여주고 나머지는 가림
       $startScreen.style.display = 'none';
       $gameMenu.style.display = 'block';
+      $battleMenu.style.display = 'none';
     } else if (screen === 'battle') {
       // 전투 메뉴만 보여주고 나머지는 가림
       $startScreen.style.display = 'none';
@@ -193,20 +194,31 @@ class Game {
   }
 }
 
-// Hero 객체 정의
-class Hero {
-  constructor(game, name) {
-    this.game = game;
+class Unit {
+  constructor(game, name, hp, att, xp) {
+    this.gamae = game;
     this.name = name;
-    this.lev = 1;
-    this.maxHp = 100;
-    this.hp = 100;
-    this.xp = 0;
-    this.att = 10;
+    this.maxHp = hp;
+    this.hp = hp;
+    this.xp = xp;
+    this.att = att;
   }
 
   attack(target) {
     target.hp -= this.att;
+  }
+}
+
+// Hero 객체 정의
+class Hero extends Unit {
+  constructor(game, name) {
+    super(game, name, 100, 10, 0); // 부모 클래스의 생성자를 호출
+    this.lev = 1;
+  }
+
+  // 안쓰면 알아서 부모 클래스(Unit)의 attack 메서드를 호출함
+  attack(target) {
+    super.attack(target);
   }
 
   heal(monster) {
@@ -230,19 +242,16 @@ class Hero {
 }
 
 // Monster 객체 정의
-class Monster {
+class Monster extends Unit {
   constructor(game, name, hp, att, xp) {
-    this.game = game;
-    this.name = name;
-    this.maxHp = hp;
-    this.hp = hp;
-    this.xp = xp;
-    this.att = att;
+    super(game, name, hp, att, xp);
   }
 
-  attack(target) {
-    target.hp -= this.att;
-  }
+  // attack(target) {
+  //   target.hp -= this.att;
+  // }
+
+  // attack 메서드를 작성하지 않으면 부모 클래스(Unit)의 attack 메서드를 호출
 }
 
 let game = null;
