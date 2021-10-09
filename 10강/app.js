@@ -60,7 +60,7 @@ class Game {
   changeScreen(screen) {
     if (screen === 'start') {
       // 시작메뉴만 보여주고 나머지는 가림
-      $startScreen.stlye.display = 'block';
+      $startScreen.style.display = 'block';
       $gameMenu.style.display = 'none';
       $battleMenu.style.display = 'none';
     } else if (screen === 'game') {
@@ -97,6 +97,7 @@ class Game {
       // 휴식
     } else if (input === '3') {
       // 종료
+      this.quit();
     }
   };
 
@@ -114,7 +115,20 @@ class Game {
       hero.attack(monster);
       monster.attack(hero);
 
-      this.showMessage(`${hero.att}의 데미지를 주고, ${monster.att}의 데미지를 받았다.`);
+      if (hero.hp <= 0) {
+        // hero의 체력이 0이 되는 경우
+        this.showMessage(`${hero.lev} 레벨에서 전사. 새 주인공을 생성하세요.`);
+        this.quit(); // 죽었으므로 게임을 종료
+      } else if (monster.hp <= 0) {
+        // monster의 체력이 0이 되는 경우
+        this.showMessage(`몬스터를 잡아 ${monster.xp} 경험치를 얻었다.`);
+        hero.getXp(monster.xp);
+        this.monster = null;
+        this.changeScreen('game');
+      } else {
+        // 둘 다 죽지 않은 경우
+        this.showMessage(`${hero.att}의 데미지를 주고, ${monster.att}의 데미지를 받았따.`);
+      }
 
       // 유저와 몬스터의 업데이트된 정보를 화면에 표시
       this.updateHeroStat();
@@ -165,6 +179,18 @@ class Game {
   showMessage(text) {
     $message.textContent = text;
   }
+
+  // 게임을 종료 (모든 정보를 초기화)
+  quit() {
+    this.hero = null;
+    this.monster = null;
+    this.updateHeroStat();
+    this.updateMonsterStat();
+    $gameMenu.removeEventListener('submit', this.onGameMenuInput);
+    $battleMenu.removeEventListener('submit', this.onBattleMenuInput);
+    this.changeScreen('start');
+    game = null;
+  }
 }
 
 // Hero 객체 정의
@@ -186,6 +212,20 @@ class Hero {
   heal(monster) {
     this.hp += 20;
     this.hp -= monster.att;
+  }
+
+  // 경험치를 얻을 때마다 레벨업을 할지 판단
+  getXp(xp) {
+    this.xp += xp;
+    if (this.xp >= this.lev * 15) {
+      // 경험치 = lev * 15가 되면
+      this.xp -= this.lev * 15;
+      this.lev += 1;
+      this.maxHp += 5;
+      this.att += 5;
+      this.hp = this.maxHp;
+      this.game.showMessage(`레벨업! 레벨${this.lev}`);
+    }
   }
 }
 
