@@ -44,6 +44,20 @@ function startGame() {
     const card = createCard(i);
     $wrapper.appendChild(card);
   }
+
+  //초반 카드 공개
+  document.querySelectorAll('.card').forEach((card, index) => {
+    setTimeout(() => {
+      card.classList.add('flipped'); // .flipped class 추가
+    }, 1000 + 100 * index);
+  });
+
+  // 카드 감추기
+  setTimeout(() => {
+    document.querySelectorAll('.card').forEach((card) => {
+      card.classList.remove('flipped'); // .flipped class 제거
+    });
+  }, 5000);
 }
 
 startGame();
