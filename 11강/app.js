@@ -5,6 +5,7 @@ const colors = ['red', 'orange', 'yellow', 'green', 'white', 'pink'];
 
 let colorCopy = colors.concat(colors);
 let shuffled = [];
+let clicked = [];
 
 // 피셔-예이츠 셔플
 function shuffle() {
@@ -42,6 +43,7 @@ function startGame() {
 
   for (let i = 0; i < total; i++) {
     const card = createCard(i);
+    card.addEventListener('click', onClickCard);
     $wrapper.appendChild(card);
   }
 
@@ -58,6 +60,14 @@ function startGame() {
       card.classList.remove('flipped'); // .flipped class 제거
     });
   }, 5000);
+}
+
+function onClickCard() {
+  this.classList.toggle('flipped');
+  clicked.push(this);
+  if (clicked.length !== 2) {
+    return;
+  }
 }
 
 startGame();
