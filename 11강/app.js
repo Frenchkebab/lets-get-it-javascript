@@ -64,7 +64,7 @@ function onClickCard() {
     // 짝을 모두 맞춘 경우 종료
     setTimeout(() => {
       alert('축하합니다!');
-    });
+    }, 1000);
 
     return;
   }
@@ -103,3 +103,12 @@ function startGame() {
 }
 
 startGame(); // 1. 카드 생성 -> 2. 카드 보여줬다가 숨기기
+
+// 게임을 새로 시작
+function resetGame() {
+  $wrapper.innerHTML = '';
+  colorCopy = colors.concat(colors);
+  shuffled = [];
+  completed = [];
+  startGame();
+}
