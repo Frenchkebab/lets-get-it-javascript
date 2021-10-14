@@ -62,7 +62,9 @@ function onClickCard() {
     }
 
     // 짝을 모두 맞춘 경우 종료
-    alert('축하합니다!');
+    setTimeout(() => {
+      alert('축하합니다!');
+    });
 
     return;
   }
